@@ -1,0 +1,379 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: radial-gradient(ellipse at 50% 20%, #fbf8f2 0%, #f3efe6 55%, #ece5d6 100%);
+    font-family: 'Playfair Display', serif;
+    color: #4a3b2c;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =========================================
+   PANTALLA 1: EL SOBRE ELEGANTE CREMA
+   ========================================= */
+.envelope-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transition: opacity 1s ease;
+    perspective: 1600px;
+}
+
+.envelope-wrapper {
+    position: relative;
+    width: 340px;
+    height: 240px;
+    cursor: pointer;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+    animation: envelope-intro 1s cubic-bezier(0.2, 0.8, 0.3, 1) both,
+               envelope-float 4.5s ease-in-out 1s infinite;
+}
+
+.envelope-wrapper:hover { transform: translateY(-6px) scale(1.015); }
+.envelope-wrapper.open { animation: none; }
+
+@keyframes envelope-intro {
+    from { opacity: 0; transform: translateY(24px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes envelope-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+}
+
+/* Fondo interior del sobre */
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #e6ded3;
+    border-radius: 4px;
+    box-shadow: 0 20px 45px rgba(74, 55, 30, 0.18), 0 2px 8px rgba(74, 55, 30, 0.1);
+    transition: box-shadow 0.8s ease;
+}
+
+.open .envelope { box-shadow: 0 30px 60px rgba(74, 55, 30, 0.28), 0 2px 8px rgba(74, 55, 30, 0.1); }
+
+.envelope-interior {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(160deg, #e9e1d5, #ded3c2);
+    border-radius: 4px; z-index: 1;
+}
+
+/* Solapas del sobre color Crema/Marfil */
+.front-left, .front-right, .front-bottom, .flap {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.front-left {
+    background: linear-gradient(to right, #fbf9f5, #f0ebd8);
+    clip-path: polygon(0 0, 50% 50%, 0 100%); z-index: 4; border-radius: 4px 0 0 4px;
+    filter: drop-shadow(1px 0 1px rgba(74, 55, 30, 0.08));
+}
+.front-right {
+    background: linear-gradient(to left, #fbf9f5, #f0ebd8);
+    clip-path: polygon(100% 0, 50% 50%, 100% 100%); z-index: 4; border-radius: 0 4px 4px 0;
+    filter: drop-shadow(-1px 0 1px rgba(74, 55, 30, 0.08));
+}
+.front-bottom {
+    background: linear-gradient(to top, #ffffff, #f0ebd8);
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%); z-index: 5; border-radius: 0 0 4px 4px;
+    filter: drop-shadow(0 -1px 1px rgba(74, 55, 30, 0.1));
+}
+
+.flap {
+    background: linear-gradient(165deg, #ffffff, #f0ebd8 70%, #e6ded0);
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+    z-index: 6;
+    transform-origin: top;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.35s, filter 0.9s ease 0.35s;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -6px 10px -6px rgba(74, 55, 30, 0.15);
+}
+
+.open .flap {
+    transform: rotateX(178deg);
+    z-index: 2;
+    filter: brightness(0.9);
+}
+
+/* === LA CINTA DE RASO: banda + nudo + colas que cuelgan por gravedad === */
+
+/* Textura de papel muy sutil sobre el sobre */
+.paper-grain {
+    position: absolute; inset: 0; z-index: 8; pointer-events: none; border-radius: 4px;
+    background-image:
+        radial-gradient(rgba(120, 100, 70, 0.05) 1px, transparent 1px),
+        radial-gradient(rgba(120, 100, 70, 0.04) 1px, transparent 1px);
+    background-size: 3px 3px, 5px 5px;
+    background-position: 0 0, 1px 2px;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+}
+
+/* La banda horizontal, ceñida al papel (no cuelga: está pegada al sobre) */
+.ribbon-band {
+    position: absolute; top: 55%; width: 50%; height: 25px;
+    background: linear-gradient(180deg, #eee2d1 0%, #fdf8f0 30%, #cbb89e 55%, #e8dcd0 80%, #b7a288 100%);
+    z-index: 7; transform: translateY(-50%);
+    box-shadow: 0 3px 5px rgba(74, 55, 30, 0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: transform 0.75s cubic-bezier(0.6, -0.28, 0.4, 1.3) 0.05s, opacity 0.55s ease 0.05s;
+}
+
+.ribbon-band-left  { left: 0; transform-origin: left center; border-radius: 3px 6px 6px 3px; }
+.ribbon-band-right { right: 0; transform-origin: right center; border-radius: 6px 3px 3px 6px; }
+
+.open .ribbon-band-left  { transform: translateY(-50%) translateX(-112%) rotate(-10deg); opacity: 0; }
+.open .ribbon-band-right { transform: translateY(-50%) translateX(112%) rotate(10deg); opacity: 0; }
+
+/* El nudo: pieza vertical de tela envuelta que asoma por arriba y abajo del sello, para que se vea */
+.ribbon-knot {
+    position: absolute; top: 55%; left: 50%; width: 36px; height: 104px;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(100deg, #fdf8f0 0%, #e6d8c4 30%, #b7a288 52%, #e6d8c4 74%, #fdf8f0 100%);
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(74, 55, 30, 0.3), inset 0 1px 1px rgba(255,255,255,0.7), inset 0 -3px 5px rgba(120, 95, 60, 0.3);
+    z-index: 8;
+    transition: transform 0.5s cubic-bezier(0.5, -0.3, 0.4, 1.2) 0.35s, opacity 0.4s ease 0.4s;
+}
+
+/* Pliegue horizontal en el nudo, para que se lea como tela envuelta y no como un bloque */
+.ribbon-knot::before {
+    content: '';
+    position: absolute; top: 50%; left: 0; width: 100%; height: 10px; transform: translateY(-50%);
+    background: linear-gradient(180deg, rgba(120, 95, 60, 0.28), rgba(255,255,255,0.35));
+    border-radius: 4px;
+}
+
+.open .ribbon-knot { transform: translate(-50%, -50%) scale(0.55) rotate(-18deg); opacity: 0; }
+
+/* Sombras que las colas proyectan sobre el papel: dan sensación de peso/gravedad */
+.ribbon-shadow {
+    position: absolute; top: 205px; left: 50%; width: 60px; height: 18px;
+    background: radial-gradient(ellipse at center, rgba(74, 55, 30, 0.24) 0%, rgba(74, 55, 30, 0) 70%);
+    z-index: 3; filter: blur(2px);
+    transition: opacity 0.5s ease 0.3s, transform 0.6s ease 0.3s;
+}
+.ribbon-shadow-l { transform: translate(-78%, 0) rotate(2deg); }
+.ribbon-shadow-r { transform: translate(-22%, 0) rotate(-2deg); }
+.open .ribbon-shadow { opacity: 0; transform: translate(-50%, 30px) scale(0.7); }
+
+/* Las colas: cuelgan directo del nudo, se afinan y terminan en punta */
+.ribbon-tail {
+    position: absolute; top: 182px; left: 50%; width: 26px; height: 78px;
+    z-index: 6;
+    background: linear-gradient(115deg, #fdf8f0 0%, #ecdfcc 22%, #c9b79f 48%, #ecdfcc 74%, #fdf8f0 100%);
+    box-shadow: 0 4px 8px rgba(74, 55, 30, 0.2);
+    clip-path: polygon(12% 0%, 88% 0%, 100% 76%, 50% 100%, 0% 76%);
+    transform-origin: 50% 0%;
+    animation: tail-sway 3.6s ease-in-out infinite;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.35, 1.3) 0.25s, opacity 0.5s ease 0.35s;
+}
+
+.ribbon-tail-l { margin-left: -30px; transform: rotate(-7deg); animation-delay: 0s; }
+.ribbon-tail-r { margin-left: 4px;   transform: rotate(7deg);  animation-delay: -1.8s; }
+
+@keyframes tail-sway {
+    0%, 100% { transform: rotate(-7deg); }
+    50%      { transform: rotate(-3deg); }
+}
+@keyframes tail-sway-r {
+    0%, 100% { transform: rotate(7deg); }
+    50%      { transform: rotate(3deg); }
+}
+.ribbon-tail-r { animation-name: tail-sway-r; }
+
+.open .ribbon-tail-l {
+    transform: rotate(-46deg) translate(-46px, 70px);
+    opacity: 0;
+    animation: none;
+}
+.open .ribbon-tail-r {
+    transform: rotate(46deg) translate(46px, 70px);
+    opacity: 0;
+    animation: none;
+}
+
+/* === SELLO DE CERA DORADO === */
+.seal {
+    position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+    width: 75px; height: 75px; z-index: 9;
+    transition: transform 0.55s cubic-bezier(0.5, -0.3, 0.4, 1.2) 0.05s, opacity 0.45s ease 0.15s;
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+}
+
+.open .seal { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(-25deg); }
+
+/* Efecto 3D de cera derretida dorada */
+.seal::before {
+    content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fde073, #d4af37 40%, #a67c00 80%);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2), inset 0 2px 5px rgba(255,255,255,0.5);
+    z-index: 1;
+    transition: box-shadow 0.4s ease;
+}
+
+.envelope-wrapper:not(.open):hover .seal::before {
+    box-shadow: 0 5px 14px rgba(212, 175, 55, 0.45), inset 0 2px 5px rgba(255,255,255,0.6);
+}
+
+/* Tu imagen incrustada en la cera */
+.seal img {
+    position: relative; width: 55px; height: 55px; border-radius: 50%;
+    object-fit: cover; z-index: 2;
+    border: 2px solid #b38728;
+}
+
+/* Esquirlas de cera que saltan al abrir */
+.wax-chip {
+    position: absolute; top: 50%; left: 50%; width: 14px; height: 14px;
+    background: linear-gradient(135deg, #fde073, #a67c00);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    z-index: 3; opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.3, 0, 0.4, 1) 0.1s, opacity 0.3s ease 0.1s;
+}
+
+.chip-left  { transform: translate(-50%, -50%) rotate(20deg); }
+.chip-right { transform: translate(-50%, -50%) rotate(-160deg); }
+
+.open .chip-left  { opacity: 1; transform: translate(-160%, 40%) rotate(-60deg); transition: transform 0.6s cubic-bezier(0.3, 0, 0.4, 1) 0.1s, opacity 0.3s ease 0.1s 0.4s; }
+.open .chip-right { opacity: 1; transform: translate(60%, 55%) rotate(140deg); transition: transform 0.6s cubic-bezier(0.3, 0, 0.4, 1) 0.15s, opacity 0.3s ease 0.15s 0.4s; }
+
+/* La tarjeta saliendo */
+.letter {
+    position: absolute; width: 300px; height: 200px; left: 20px; bottom: 10px;
+    background-color: #fff; z-index: 3; display: flex; justify-content: center; align-items: center;
+    border-radius: 5px; transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.75s, box-shadow 0.9s ease 0.75s;
+    color: #d4af37; font-size: 24px; letter-spacing: 1px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    font-family: 'Great Vibes', cursive; font-size: 30px;
+}
+
+.open .letter {
+    transform: translateY(-135px) rotate(-1.5deg);
+    z-index: 10;
+    box-shadow: 0 25px 55px rgba(74, 55, 30, 0.3);
+}
+
+.instruction {
+    text-align: center; color: #8e7c68; margin-top: 30px; font-style: italic;
+    transition: opacity 0.3s;
+    animation: instruction-pulse 2.4s ease-in-out 1.2s infinite;
+}
+
+.open .instruction { opacity: 0; animation: none; }
+
+@keyframes instruction-pulse {
+    0%, 100% { opacity: 0.65; }
+    50%      { opacity: 1; }
+}
+
+/* =========================================
+   PANTALLA 2: LA INVITACIÓN
+   ========================================= */
+.invitation-screen {
+    width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center;
+    padding: 20px; opacity: 0; transition: opacity 1.3s ease;
+}
+
+.invitation-screen.active { opacity: 1; }
+
+.invitation-card {
+    background-color: #fffaf4; max-width: 500px; width: 100%; padding: 40px 20px;
+    text-align: center; border: 2px solid #dfc27d; outline: 1px solid #dfc27d; outline-offset: -8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative;
+}
+
+.invitation-card > * {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.invitation-screen.active .invitation-card > * {
+    animation: card-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.invitation-screen.active .invitation-card > *:nth-child(1)  { animation-delay: 0.05s; }
+.invitation-screen.active .invitation-card > *:nth-child(2)  { animation-delay: 0.15s; }
+.invitation-screen.active .invitation-card > *:nth-child(3)  { animation-delay: 0.25s; }
+.invitation-screen.active .invitation-card > *:nth-child(4)  { animation-delay: 0.3s; }
+.invitation-screen.active .invitation-card > *:nth-child(5)  { animation-delay: 0.35s; }
+.invitation-screen.active .invitation-card > *:nth-child(6)  { animation-delay: 0.45s; }
+.invitation-screen.active .invitation-card > *:nth-child(7)  { animation-delay: 0.5s; }
+.invitation-screen.active .invitation-card > *:nth-child(8)  { animation-delay: 0.6s; }
+.invitation-screen.active .invitation-card > *:nth-child(9)  { animation-delay: 0.7s; }
+.invitation-screen.active .invitation-card > *:nth-child(10) { animation-delay: 0.8s; }
+.invitation-screen.active .invitation-card > *:nth-child(11) { animation-delay: 0.85s; }
+
+@keyframes card-reveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rings-top { text-align: center; margin-bottom: 15px; }
+.rings-top img {
+    width: 120px; height: auto; border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.25);
+}
+
+.text-serif { font-size: 1.2rem; margin: 10px 0; }
+.text-caps { font-size: 0.9rem; margin: 10px 0; text-transform: uppercase; letter-spacing: 1px; color: #5a4b3d; }
+.text-italic { font-size: 1.3rem; font-style: italic; margin: 10px 0; }
+
+.text-cursive { font-family: 'Great Vibes', cursive; font-size: 3.5rem; line-height: 1.1; color: #2c241b; margin: 10px 0; font-weight: normal; }
+.text-cursive-small { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #2c241b; margin-top: 5px; }
+
+.gold-divider {
+    color: #d4af37; font-size: 1.5rem; margin: 15px 0;
+    display: inline-block;
+    animation: divider-glow 3s ease-in-out infinite;
+}
+
+@keyframes divider-glow {
+    0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(212, 175, 55, 0); }
+    50%      { transform: scale(1.15); text-shadow: 0 0 10px rgba(212, 175, 55, 0.55); }
+}
+
+.countdown-container { display: flex; justify-content: center; align-items: center; margin: 25px 0; gap: 10px; }
+.time-box span { font-size: 3rem; color: #8f9bd1; font-weight: 300; display: inline-block; }
+.time-box p { font-size: 0.7rem; color: #8f9bd1; letter-spacing: 1px; text-transform: uppercase; margin-top: -5px; }
+.colon { font-size: 2.5rem; color: #8f9bd1; margin-top: -20px; animation: colon-blink 1s steps(1) infinite; }
+
+@keyframes colon-blink {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0.3; }
+}
+
+.photo-frame {
+    margin: 20px auto; width: 90%; max-width: 300px; padding: 8px; border: 2px solid #dfc27d;
+    border-radius: 10px; background: #fff; box-shadow: 0 5px 15px rgba(223, 194, 125, 0.3);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.photo-frame:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(223, 194, 125, 0.45); }
+.photo-frame img { width: 100%; border-radius: 5px; display: block; }
+
+@media (max-width: 400px) {
+    .text-cursive { font-size: 2.8rem; }
+    .time-box span { font-size: 2.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .envelope-wrapper, .flap, .ribbon-band, .ribbon-knot, .ribbon-tail, .ribbon-shadow,
+    .seal, .wax-chip, .letter, .instruction, .gold-divider, .colon, .invitation-card > * {
+        animation: none !important;
+        transition-duration: 0.2s !important;
+    }
+    .invitation-card > * { opacity: 1; transform: none; }
+}

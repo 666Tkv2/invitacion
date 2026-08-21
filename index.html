@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Nos Casamos!</title>
+    <!-- Importamos fuentes elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- PANTALLA 1: EL SOBRE ELEGANTE -->
+    <div class="envelope-container" id="envelope-screen">
+        <div class="envelope-wrapper" id="envelope">
+            <div class="envelope">
+                <div class="envelope-interior"></div>
+                <div class="paper-grain"></div>
+
+                <div class="letter">
+                    <div class="mini-card">Nuestra Boda</div>
+                </div>
+
+                <!-- Capas del sobre crema -->
+                <div class="front-left"></div>
+                <div class="front-right"></div>
+                <div class="front-bottom"></div>
+                <div class="flap"></div>
+
+                <!-- La cinta de raso champagne, con nudo y colas que cuelgan por gravedad -->
+                <div class="ribbon-shadow ribbon-shadow-l"></div>
+                <div class="ribbon-shadow ribbon-shadow-r"></div>
+                <div class="ribbon-band ribbon-band-left"></div>
+                <div class="ribbon-band ribbon-band-right"></div>
+                <div class="ribbon-tail ribbon-tail-l"></div>
+                <div class="ribbon-tail ribbon-tail-r"></div>
+                <div class="ribbon-knot"></div>
+
+                <!-- EL SELLO DE CERA DORADO (Con tu imagen adentro) -->
+                <div class="seal">
+                    <img src="anillos.jpg" alt="Sello de anillos">
+                    <span class="wax-chip chip-left"></span>
+                    <span class="wax-chip chip-right"></span>
+                </div>
+
+            </div>
+            <p class="instruction">Toca para abrir</p>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: LA INVITACIÓN CON CÓDIGO (Queda intacta) -->
+    <div class="invitation-screen" id="invitation-screen" style="display: none;">
+        <div class="invitation-card">
+            
+            <div class="rings-top">
+                <img src="anillos.jpg" alt="Anillos">
+            </div>
+            
+            <p class="text-serif">Sabias que</p>
+            <h1 class="text-cursive">después de más<br>años que la chucha</h1>
+            
+            <div class="gold-divider">❦</div>
+            
+            <p class="text-serif">Nos casaremos y nos gustaria<br>que estuvieras ahí con nosotros...</p>
+            
+            <div class="gold-divider">❦</div>
+            
+            <p class="text-caps">LA CEREMONIA SERÁ EL DIA SABADO 14<br>DE NOVIEMBRE A LAS 14:00HRS</p>
+
+            <div class="countdown-container">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <p>DÍAS</p>
+                </div>
+                <span class="colon">:</span>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <p>HORAS</p>
+                </div>
+                <span class="colon">:</span>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <p>MINUTOS</p>
+                </div>
+                <span class="colon">:</span>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <p>SEGUNDOS</p>
+                </div>
+            </div>
+
+            <div class="gold-divider">❦</div>
+
+            <p class="text-italic">En Totihue casa 23 comuna de<br>Requinoa.</p>
+
+            <div class="photo-frame">
+                <img src="foto.jpg" alt="Nosotros">
+            </div>
+
+            <div class="gold-divider">❦</div>
+
+            <p class="text-italic">te esperamos...</p>
+            <p class="text-cursive-small">Que no se te ocurra faltar.</p>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
